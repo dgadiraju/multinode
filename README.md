@@ -22,4 +22,5 @@ This is to create multiple virtual machines using vagrant script
 ```
 * This will create 6 virtual machines from 192.168.100.210 to 192.168.100.215
 * Each virtual machine is of size 8 GB memory and 2 CPUs
-* Size of hard disk will be default
+* Each virtual machine will be created with 2 virtual hard drives which can expand up to 60 GB each
+* Values related to virtual hard drives are hardcoded and hence make sure to understand side effects if you use to create them on local PC. 
