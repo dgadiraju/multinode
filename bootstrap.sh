@@ -1,5 +1,5 @@
-useradd  -mG wheel hadoop
-echo itversity | passwd hadoop --stdin
+useradd  -mG wheel training
+echo itversity | passwd training --stdin
 sed -i "s/PasswordAuthentication no/PasswordAuthentication yes/g" /etc/ssh/sshd_config
 
 sed -i "s/%wheel\tALL=(ALL)\tALL/# %wheel\tALL=(ALL)\tALL/g" /etc/sudoers
