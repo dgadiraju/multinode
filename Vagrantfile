@@ -5,27 +5,41 @@
 # configures the configuration version (we support older styles for
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
+
 require 'yaml'
 cnf = YAML::load(File.open('manifest.yml'))
-instances = cnf['instances'].to_i
+
+instances = cnf['instances']
+box = cnf['box']
+provider = cnf['provider']
+name_prefix = cnf['name_prefix']
+name_suffix = cnf['name_suffix']
+ip_prefix = cnf['ip_prefix']
+storage_devices = cnf['storage_devices']
+disk_size = cnf['disk_size']
+memory = cnf['memory']
+cpus = cnf['cpus']
+path = cnf['path']
 
 Vagrant.configure("2") do |config|
-  config.vm.box = "centos/7"
-
   instances.times do |i|
-    node_id = cnf['name_prefix'] + "#{i}"
+    node_id = "#{name_prefix}#{i}"
     config.vm.define node_id do |node|
       node.vm.box = "centos/7"
-      node.vm.hostname = "#{node_id}"
-      node.vm.network "private_network", ip: cnf['privateip_prefix'] + "#{i}"
-      node.vm.provider :libvirt do |lvm|
-        lvm.memory = cnf['memory']
-        lvm.cpus = cnf['cpus']
-        lvm.storage :file, :size => '60G'
-        lvm.storage :file, :size => '60G'
+      node.vm.hostname = "#{node_id}#{name_suffix}"
+
+      node.vm.network "private_network", ip: "#{ip_prefix}#{i}"
+
+      node.vm.provider "#{provider}" do |vm|
+        vm.memory = "#{memory}"
+        vm.cpus = "#{cpus}"
+        if "#{provider}" === "libvirt"
+          storage_devices.times do |j|
+            vm.storage :file, :size => "#{disk_size}" 
+          end
+        end
       end
-      node.vm.provision "shell", path: cnf["bootstrap"]
+      node.vm.provision "shell", path: "#{path}"
     end
   end
 end
-
