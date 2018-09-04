@@ -1,7 +1,12 @@
 ---
   instances: 7
-  name_prefix: pvc00 
-  memory: 8192
+  provider: libvirt
+  name_prefix: server0
+  name_suffix: .itversity.com
+  ip_prefix: 192.168.100.20
+  storage_devices: 2
+  disk_size: 60G
+  memory: 2048
   cpus: 2
-  privateip_prefix: 192.168.100.21
-  bootstrap: bootstrap.sh
+  box: centos/7
+  path: bootstrap.sh
