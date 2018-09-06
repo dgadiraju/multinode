@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
   instances.times do |i|
     node_id = "#{name_prefix}#{i}"
     config.vm.define node_id do |node|
-      node.vm.box = "centos/7"
+      node.vm.box = "#{box}"
       node.vm.hostname = "#{node_id}#{name_suffix}"
 
       node.vm.network "private_network", ip: "#{ip_prefix}#{i}"
